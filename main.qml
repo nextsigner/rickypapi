@@ -17,7 +17,7 @@ ApplicationWindow {
     width: 1400
     height: 600
     visibility:"Maximized"
-    title: 'Los Ricky Papi de Matias Ponce'
+    title: 'RickyPapi Navergador Web'
     color: '#333'
     property int fs: app.width*0.02
     property color c1: "#1fbc05"
