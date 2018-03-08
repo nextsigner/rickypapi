@@ -554,7 +554,7 @@ ApplicationWindow {
         id:tu
         running: true
         repeat: true
-        interval: 3000
+        interval: 1000*60*60
         onTriggered: {
             var d = new Date(Date.now())
             var ur0 = ''+unik.getHttpFile('https://github.com/nextsigner/rickypapi/commits/master?r='+d.getTime())
