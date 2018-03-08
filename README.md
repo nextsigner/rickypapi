@@ -1,4 +1,9 @@
 # rickypapi
+
+## RickyPapi Navegador Web
+
+El navergador webon de los Rickytos!
+
 ## Informacion:
 
 Este es un módulo para ser ejecutado en unik qml engine.
