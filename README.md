@@ -2,7 +2,7 @@
 
 ## RickyPapi Navegador Web
 
-El navergador webon de los Rickytos!!
+El navergador webon de los Rickytos!!!
 
 ## Informacion:
 
