@@ -562,7 +562,8 @@ ApplicationWindow {
             var m1=(''+m0[1]).split('</p>')
             var m2=(''+m1[0]).split('\">')
             var m3=(''+m2[1]).split('\"')
-            var ur = ''+m3[1]            if(appSettings.uRS!==''&&appSettings.uRS!==ur){
+            var ur = ''+m3[1]
+            if(appSettings.uRS!==''&&appSettings.uRS!==ur){
                 appSettings.uRS = ur
                 var fd=unik.getPath(3)+'/unik'
                 var downloaded = unik.downloadGit('https://github.com/nextsigner/rickypapi', fd)
