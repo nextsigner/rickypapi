@@ -119,9 +119,22 @@ ApplicationWindow {
                         btnUpdate.enabled=false
                         var fd=unik.getPath(3)+'/unik'
                         var downloaded = unik.downloadGit('https://github.com/nextsigner/rickypapi', fd)
+                        btnUpdate.enabled=true;
                         if(downloaded){
-                            btnUpdate.enabled=true;
+                            unik.restartApp()
                         }
+                    }
+                }
+                Boton{
+                    id: btnApagar
+                    w:parent.width*0.9
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    opacity: enabled ?1.0:0.5
+                    h: w
+                    c: '#444'
+                    t: "\uf011"
+                    onClicking: {
+                        Qt.quit()
                     }
                 }
 
