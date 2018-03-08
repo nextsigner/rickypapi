@@ -28,6 +28,7 @@ ApplicationWindow {
     property string tool: ""
     property string urlEditor: 'http://nsdocs.blogspot.com.ar/search?q=qml+unik'
     property var wvResult
+    //property string uRSStandBy: 0
 
     Settings{
         id: appSettings
@@ -42,6 +43,8 @@ ApplicationWindow {
         property string uUrlTT: 'https://twitter.com/MatiasPonceYT'
         property string uUrlFB: 'https://www.facebook.com/matiasponceoficial'
         property int red: 0
+        property string uRS: ''
+        property bool uRCRev: false
     }
     FontLoader {name: "FontAwesome";source: "qrc:/fontawesome-webfont.ttf";}
     onClosing: Qt.quit()
@@ -113,14 +116,21 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     opacity: enabled ?1.0:0.5
                     h: w
-                    c: '#444'
+                    b: up ? 'red':'#ccc'
+                    c: up ? 'white':'#333'
                     t: "\uf021"
+                    property bool up: false
                     onClicking: {
-                        btnUpdate.enabled=false
-                        var fd=unik.getPath(3)+'/unik'
-                        var downloaded = unik.downloadGit('https://github.com/nextsigner/rickypapi', fd)
-                        btnUpdate.enabled=true;
-                        if(downloaded){
+                        if(!btnUpdate.up){
+                            btnUpdate.enabled=false
+                            var fd=unik.getPath(3)+'/unik'
+                            var downloaded = unik.downloadGit('https://github.com/nextsigner/rickypapi', fd)
+                            btnUpdate.enabled=true;
+                            if(downloaded){
+                                unik.restartApp()
+                            }
+                        }else{
+                            //appSettings.uRS=app.uRSStandBy
                             unik.restartApp()
                         }
                     }
@@ -160,12 +170,12 @@ ApplicationWindow {
                     storageName: "Default"
                     onDownloadRequested: {
                         download.path=unik.getPath(2)+'/main.qml'
-                        download.accept();                        
+                        download.accept();
                     }
                     onDownloadFinished: {
 
                     }
-                }                
+                }
                 settings.javascriptCanOpenWindows: true
                 settings.allowRunningInsecureContent: false
                 //settings.hyperlinkAuditingEnabled:  true
@@ -228,7 +238,7 @@ ApplicationWindow {
 
 
 
-            }            
+            }
 
             WebEngineView{
                 id: wvinstagram
@@ -539,7 +549,35 @@ ApplicationWindow {
             }
         }
     }
+
+    Timer{
+        id:tu
+        running: true
+        repeat: true
+        interval: 3000
+        onTriggered: {
+            var d = new Date(Date.now())
+            var ur0 = ''+unik.getHttpFile('https://github.com/nextsigner/rickypapi/commits/master?r='+d.getTime())
+            var m0=ur0.split("commit-title")
+            var m1=(''+m0[1]).split('</p>')
+            var m2=(''+m1[0]).split('\">')
+            var m3=(''+m2[1]).split('\"')
+            var ur = ''+m3[1]            if(appSettings.uRS!==''&&appSettings.uRS!==ur){
+                appSettings.uRS = ur
+                var fd=unik.getPath(3)+'/unik'
+                var downloaded = unik.downloadGit('https://github.com/nextsigner/rickypapi', fd)
+                tu.stop()
+                if(downloaded){
+                    btnUpdate.up=true
+                }else{
+                    tu.start()
+                }
+            }else{
+                appSettings.uRS=ur
+            }
+        }
+    }
     Component.onCompleted:  {
-        unik.debugLog = true        
+        unik.debugLog = true
     }
 }
