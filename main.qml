@@ -47,7 +47,6 @@ ApplicationWindow {
         property bool uRCRev: false
     }
     FontLoader {name: "FontAwesome";source: "qrc:/fontawesome-webfont.ttf";}
-    onClosing: Qt.quit()
     Row{
         anchors.fill: parent
         Rectangle{
@@ -144,7 +143,11 @@ ApplicationWindow {
                     c: '#444'
                     t: "\uf011"
                     onClicking:Qt.quit()
-                    onDobleclicking:app.close()
+                    onPChanged:{
+                        if(p){
+                            app.close()
+                        }
+                    }
 
                 }
 
