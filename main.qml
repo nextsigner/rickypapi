@@ -5,7 +5,7 @@ This code is used for the unik qml engine system too created by nextsigner.
 Please read the Readme.md from https://github.com/nextsigner/rickypapi.git
 Contact
     email: nextsigner@gmail.com
-    whatsapps: +541138024370
+    whatsapps: +54 11 3802 4370
 */
 import QtQuick 2.7
 import QtQuick.Controls 2.0
@@ -32,7 +32,7 @@ ApplicationWindow {
 
     Settings{
         id: appSettings
-        category: 'Configuration'
+        category: 'conf-rickypapi'
         property string bgColorEditor: 'black'
         property string txtColorEditor: 'white'
         property int pyLineRH1: 0
@@ -143,9 +143,9 @@ ApplicationWindow {
                     h: w
                     c: '#444'
                     t: "\uf011"
-                    onClicking: {
-                        Qt.quit()
-                    }
+                    onClicking:Qt.quit()
+                    onDobleclicking:app.close()
+
                 }
 
             }

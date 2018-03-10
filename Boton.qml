@@ -10,6 +10,7 @@ Item {
     width: w
     height: h
     signal clicking
+    signal dobleclicking
     Rectangle{
         id: rect
         width:  raiz.width
@@ -42,6 +43,11 @@ Item {
                 an.start()
                 clicking()
             }
+            onDoubleClicked: {
+                an.start()
+                dobleclicking()
+            }
+
         }
 
     }
