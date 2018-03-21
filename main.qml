@@ -40,7 +40,7 @@ ApplicationWindow {
         property string bgColorEditor: 'black'
         property string txtColorEditor: 'white'
         property int pyLineRH1: 0
-        property bool logVisible: false
+        property bool dlvVisible: false
         property string currentFolder
         property string uUrlYT: app.urlYT
         property string uUrlInst: app.urlInst
@@ -48,7 +48,7 @@ ApplicationWindow {
         property string uUrlFB: app.urlFB
         property int red: 0
         property string uRS: ''
-        property bool uRCRev: false        
+        property bool uRCRev: false
     }
     FontLoader {name: "FontAwesome";source: "qrc:/fontawesome-webfont.ttf";}
     Row{
@@ -171,6 +171,25 @@ ApplicationWindow {
 
 
                 Boton{
+                    id: btnDLV
+                    w:parent.width*0.9
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    opacity: enabled ?1.0:0.5
+                    h: w
+                    t: "\uf019"
+
+                    a: appSettings.dlvVisible
+                    c: a?'white':'green'
+                    b: a?'green':'white'
+                    o: !a?0.0:1.0
+                    r:app.fs*0.2
+
+                    onClicking: {
+                        appSettings.dlvVisible = !appSettings.dlvVisible
+                    }
+                }
+
+                Boton{
                     id: btnInfo
                     w:parent.width*0.9
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -254,64 +273,28 @@ ApplicationWindow {
             ModWebView{id:modwvtt;red:2;url:appSettings.uUrlTT;}
             ModWebView{id:modwvfb;red:3;url:appSettings.uUrlFB;}
             ModWebView{id:modwvinfo;red:4;url:"https://twitter.com/hashtag/RickyPapiNavegadorWeb?src=hash";}
-
-            Menu {
-                id: contextMenu
-                onVisibleChanged: {
-                    if(!visible){
-                        menuLink.visible = false
-                        ccs.visible = false
+            LineResizeH{
+                id:lineRH;
+                y:visible?appSettings.pyLineRH1: parent.height;
+                onLineReleased: appSettings.pyLineRH1 = y;
+                visible: appSettings.dlvVisible;
+                onYChanged: {
+                    if(y<container.height/3){
+                        y=container.height/3+2
                     }
                 }
-                MenuItem { id: menuLink; text: "Copiar Url"
-                    visible: false
-                    enabled: visible
-                    height: visible ? undefined : 0
-                    onTriggered:{
-                        clipboard.setText(wvinstagram.linkContextRequested)
+                Component.onCompleted: {
+                    if(lineRH.y<container.height/3){
+                        lineRH.y=container.height/3+2
                     }
                 }
-
-                MenuItem { text: "Atras"
-                    onTriggered:{
-                        wvinstagram.goBack()
-                    }
-                }
-                MenuItem { text: "Adelante"
-                    onTriggered:{
-                        wvinstagram.goForward()
-                    }
-                }
-                MenuItem { text: "Cortar"
-                    onTriggered:{
-                        wvinstagram.triggerWebAction(WebEngineView.Cut)
-                    }
-                }
-                MenuItem { text: "Copiar"
-                    onTriggered:{
-                        wvinstagram.triggerWebAction(WebEngineView.Copy)
-                        var js='\'\'+window.getSelection()'
-                        wvinstagram.runJavaScript(js, function(result) {
-                            logView.log(result);
-                        });
-
-                        //logView.log(wvyutun.ViewSource.toString())
-                    }
-                }
-                MenuItem {
-                    id: menuPegar
-                    text: "Pegar"
-                    onTriggered:{
-                        wvinstagram.triggerWebAction(WebEngineView.Paste)
-                    }
-                }
-                MenuItem {
-                    id: menuSalir
-                    text: "Apagar"
-                    onTriggered:{
-                        Qt.quit()
-                    }
-                }
+            }
+            ModDLV{
+                id: modDlv
+                width: parent.width
+                anchors.top: lineRH.bottom;
+                anchors.bottom: parent.bottom;
+                visible: appSettings.dlvVisible;
             }
         }
     }
@@ -357,8 +340,13 @@ ApplicationWindow {
             tu.start()
         }
     }
+    function onDLR(download) {
+        appSettings.dlvVisible=true
+        modDlv.append(download);
+        download.accept();
+    }
 
     Component.onCompleted:  {
-        unik.debugLog = true        
+        unik.debugLog = true
     }
 }

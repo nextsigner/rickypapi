@@ -5,7 +5,7 @@ import QtWebEngine 1.4
 Item {
     id: raiz
     width: parent.width-xTools.width
-    height: parent.height
+    height: appSettings.dlvVisible?parent.height-(raiz.parent.height-lineRH.y):parent.height
     property int red
     property string url
     visible: appSettings.red===raiz.red;
@@ -14,6 +14,7 @@ Item {
         id: xTiUrl
         width: raiz.width
         height: app.fs*0.6
+        z:height!==0?ma.z+100:0
         Row{
             anchors.centerIn: parent
             Text {
@@ -56,10 +57,7 @@ Item {
         property QtObject defaultProfile: WebEngineProfile {
             storageName: "Default"
             onDownloadRequested: {
-                download.path = unik.getPath(3)+'/'+download.FileNoSpace
-                console.log()
-                //download.path=unik.getPath(2)+'/main.qml'
-                download.accept();
+                app.onDLR(download)
             }
             onDownloadFinished: {
 
@@ -130,6 +128,67 @@ Item {
 
     }
 
+
+    Menu {
+        id: contextMenu
+        onVisibleChanged: {
+            if(!visible){
+                menuLink.visible = false
+                //ccs.visible = false
+            }
+        }
+        MenuItem { id: menuLink; text: "Copiar Url"
+            visible: false
+            enabled: visible
+            height: visible ? undefined : 0
+            onTriggered:{
+                clipboard.setText(wvinstagram.linkContextRequested)
+            }
+        }
+
+        MenuItem { text: "Atras"
+            onTriggered:{
+                wvinstagram.goBack()
+            }
+        }
+        MenuItem { text: "Adelante"
+            onTriggered:{
+                wvinstagram.goForward()
+            }
+        }
+        MenuItem { text: "Cortar"
+            onTriggered:{
+                wvinstagram.triggerWebAction(WebEngineView.Cut)
+            }
+        }
+        MenuItem { text: "Copiar"
+            onTriggered:{
+                wvinstagram.triggerWebAction(WebEngineView.Copy)
+                var js='\'\'+window.getSelection()'
+                wvinstagram.runJavaScript(js, function(result) {
+                    logView.log(result);
+                });
+
+                //logView.log(wvyutun.ViewSource.toString())
+            }
+        }
+        MenuItem {
+            id: menuPegar
+            text: "Pegar"
+            onTriggered:{
+                wvinstagram.triggerWebAction(WebEngineView.Paste)
+            }
+        }
+        MenuItem {
+            id: menuSalir
+            text: "Apagar"
+            onTriggered:{
+                Qt.quit()
+            }
+        }
+    }
+
+
     MouseArea{
         id: ma
         width: raiz.width
@@ -144,4 +203,7 @@ Item {
             ma.height=app.fs*0.5
         }
     }
+
+
+
 }
