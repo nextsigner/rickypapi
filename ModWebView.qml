@@ -106,7 +106,7 @@ Item {
             request.accept()
         }
         onUrlChanged: {
-            raiz.url = url
+            //raiz.url = url
             tiUrl.text=url
         }
         Shortcut {
