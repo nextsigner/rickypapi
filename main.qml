@@ -168,8 +168,29 @@ ApplicationWindow {
                 }
                 Item{width: parent.width*0.9;height: width}
                 Item{width: parent.width*0.9;height: width}
-                Item{width: parent.width*0.9;height: width}
 
+
+                Boton{
+                    id: btnInfo
+                    w:parent.width*0.9
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    opacity: enabled ?1.0:0.5
+                    h: w
+                    t: modwvtt.url.indexOf("https://twitter.com/hashtag/RickyPapiNavegadorWeb?src=hash")===0?"\uf086":"\uf0ac"
+
+                    a: appSettings.red===4
+                    c: a?'white':'green'
+                    b: a?'green':'white'
+                    o: !a?0.0:1.0
+                    r:app.fs*0.2
+
+                    onClicking: {
+                        modwvinfo.url = "https://twitter.com/hashtag/RickyPapiNavegadorWeb?src=hash"
+                        appSettings.red=4;
+                    }
+                }
+                Item{width: parent.width*0.9;height: width}
+                Item{width: parent.width*0.9;height: width}
                 Boton{
                     id: btnUpdate
                     w:parent.width*0.9
@@ -232,6 +253,7 @@ ApplicationWindow {
             ModWebView{id:modwvig;red:1;url:appSettings.uUrlInst;}
             ModWebView{id:modwvtt;red:2;url:appSettings.uUrlTT;}
             ModWebView{id:modwvfb;red:3;url:appSettings.uUrlFB;}
+            ModWebView{id:modwvinfo;red:4;url:"https://twitter.com/hashtag/RickyPapiNavegadorWeb?src=hash";}
 
             Menu {
                 id: contextMenu
