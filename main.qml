@@ -26,9 +26,13 @@ ApplicationWindow {
     property color c4: "black"
     property color c5: "#333333"
     property string tool: ""
-    property string urlEditor: 'http://nsdocs.blogspot.com.ar/search?q=qml+unik'
-    property var wvResult
-    //property string uRSStandBy: 0
+    property string urlYT: 'https://www.youtube.com/user/MatiasPonceOk'
+    property string urlInst: 'https://www.instagram.com/matiasponce_10/'
+    property string urlTT: 'https://twitter.com/MatiasPonceYT'
+    property string urlFB: 'https://www.facebook.com/matiasponceoficial'
+
+    property string colorBarra:'white'
+
 
     Settings{
         id: appSettings
@@ -38,13 +42,13 @@ ApplicationWindow {
         property int pyLineRH1: 0
         property bool logVisible: false
         property string currentFolder
-        property string uUrlYT: 'https://www.youtube.com/user/MatiasPonceOk'
-        property string uUrlInst: 'https://www.instagram.com/matiasponce_10/'
-        property string uUrlTT: 'https://twitter.com/MatiasPonceYT'
-        property string uUrlFB: 'https://www.facebook.com/matiasponceoficial'
+        property string uUrlYT: app.urlYT
+        property string uUrlInst: app.urlInst
+        property string uUrlTT: app.urlTT
+        property string uUrlFB: app.urlFB
         property int red: 0
         property string uRS: ''
-        property bool uRCRev: false
+        property bool uRCRev: false        
     }
     FontLoader {name: "FontAwesome";source: "qrc:/fontawesome-webfont.ttf";}
     Row{
@@ -54,8 +58,12 @@ ApplicationWindow {
             width: app.width*0.02
             height: app.height
             color: "#fff"
-            border.width: 1
-            border.color: "black"
+            Rectangle{
+                width: 1
+                height: parent.height
+                color: "black"
+                anchors.right: parent.right
+            }
             Column{
                 id: colTools
                 width: parent.width
@@ -66,10 +74,24 @@ ApplicationWindow {
                     w:parent.width*0.9
                     anchors.horizontalCenter: parent.horizontalCenter
                     h: w
-                    c: 'red'
-                    t: "\uf167"
+                    t: modwvyutun.url.indexOf(app.urlYT)===0?"\uf167":"\uf0ac"
+
+                    a: appSettings.red===0
+                    c: a?'white':'red'
+                    b: a?'red':'white'
+                    o: !a?0.0:1.0
+                    r:app.fs*0.2
+
                     onClicking: {
                         appSettings.red=0;
+                    }
+                    onPChanged: {
+                        if(p){
+                            appSettings.uUrlYT = app.urlYT
+                            modwvyutun.url=appSettings.uUrlYT
+                            appSettings.red=0;
+                            console.log('--->>>>>'+appSettings.uUrlYT)
+                        }
                     }
                 }
                 Boton{
@@ -77,10 +99,23 @@ ApplicationWindow {
                     w:parent.width*0.9
                     anchors.horizontalCenter: parent.horizontalCenter
                     h: w
-                    c: 'blue'
-                    t: "\uf16d"
+
+                    t: modwvig.url.indexOf(app.urlInst)===0?"\uf16d":"\uf0ac"
+                    a: appSettings.red===1
+                    c: a?'white':'blue'
+                    b: a?'blue':'white'
+                    o: !a?0.0:1.0
+                    r:app.fs*0.2
+
                     onClicking: {
                         appSettings.red=1;
+                    }
+                    onPChanged: {
+                        if(p){
+                            appSettings.uUrlInst = app.urlInst
+                            modwvig.url=appSettings.uUrlInst
+                            appSettings.red=1;
+                        }
                     }
                 }
                 Boton{
@@ -88,10 +123,23 @@ ApplicationWindow {
                     w:parent.width*0.9
                     anchors.horizontalCenter: parent.horizontalCenter
                     h: w
-                    c: '#43b7f1'
-                    t: "\uf099"
+                    t: modwvtt.url.indexOf(app.urlTT)===0?"\uf099":"\uf0ac"
+
+                    a: appSettings.red===2
+                    c: a?'white':'#43b7f1'
+                    b: a?'#43b7f1':'white'
+                    o: !a?0.0:1.0
+                    r:app.fs*0.2
+
                     onClicking: {
                         appSettings.red=2;
+                    }
+                    onPChanged: {
+                        if(p){
+                            appSettings.uUrlTT = app.urlTT
+                            modwvtt.url=appSettings.uUrlTT
+                            appSettings.red=2;
+                        }
                     }
                 }
                 Boton{
@@ -99,10 +147,23 @@ ApplicationWindow {
                     w:parent.width*0.9
                     anchors.horizontalCenter: parent.horizontalCenter
                     h: w
-                    c: '#117aca'
-                    t: "\uf09a"
+                    t: modwvfb.url.indexOf(app.urlFB)===0?"\uf09a":"\uf0ac"
+
+                    a: appSettings.red===3
+                    c: a?'white':'#117aca'
+                    b: a?'#117aca':'white'
+                    o: !a?0.0:1.0
+                    r:app.fs*0.2
+
                     onClicking: {
                         appSettings.red=3;
+                    }
+                    onPChanged: {
+                        if(p){
+                            appSettings.uUrlFB = app.urlFB
+                            modwvfb.url=appSettings.uUrlFB
+                            appSettings.red=3;
+                        }
                     }
                 }
                 Item{width: parent.width*0.9;height: width}
@@ -118,6 +179,8 @@ ApplicationWindow {
                     b: up ? 'red':'#ccc'
                     c: up ? 'white':'#333'
                     t: "\uf021"
+                    o:1.0
+                    r:app.fs*0.2
                     property bool up: false
                     onClicking: {
                         if(!btnUpdate.up){
@@ -140,12 +203,17 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     opacity: enabled ?1.0:0.5
                     h: w
-                    c: '#444'
                     t: "\uf011"
-                    onClicking:Qt.quit()
+
+                    c: '#333'
+                    b: '#fff'
+                    o: 1.0
+                    r:app.fs*0.2
+
+                    onClicking:app.close()
                     onPChanged:{
                         if(p){
-                            app.close()
+                            Qt.quit()
                         }
                     }
 
@@ -160,337 +228,10 @@ ApplicationWindow {
             height: parent.height
             color: '#333'
 
-            WebEngineView{
-                id: wvyutun
-                width: parent.width-xTools.width
-                height: parent.height
-                url:appSettings.uUrlYT
-                profile: defaultProfile
-                focus: true
-                visible: appSettings.red===0
-                property string linkContextRequested
-                property QtObject defaultProfile: WebEngineProfile {
-                    storageName: "Default"
-                    onDownloadRequested: {
-                        download.path=unik.getPath(2)+'/main.qml'
-                        download.accept();
-                    }
-                    onDownloadFinished: {
-
-                    }
-                }
-                settings.javascriptCanOpenWindows: true
-                settings.allowRunningInsecureContent: false
-                //settings.hyperlinkAuditingEnabled:  true
-                settings.javascriptCanAccessClipboard: true
-                settings.localStorageEnabled: true
-                settings.javascriptEnabled: true
-                onNewViewRequested: {
-                    request.openIn(wv)
-                    request.accepted = true;
-                }
-                onLoadProgressChanged: {
-                    /*if(loadProgress!==100){
-                        wvyutun.opacity = 0.0
-                    }else{
-                        wvyutun.opacity = 1.0
-                    }*/
-                }
-                onContextMenuRequested: function(request) {
-                    var lurl = ''+request.linkUrl
-                    if(lurl!==''){
-                        wvyutun.linkContextRequested = lurl
-                        menuLink.visible = true
-                    }
-                    request.accepted = true;
-                    contextMenu.x = request.x;
-                    contextMenu.y = request.y;
-                    contextMenu.visible = true
-                }
-                property int previsibility: 1
-                onFullScreenRequested: {
-                    if(request.toggleOn){
-                        wvyutun.previsibility=app.visibility
-                        app.visibility = "FullScreen"
-                        wvyutun.state = "FullScreen"
-                        xTools.width=0
-                    }else{
-                        app.visibility = wvyutun.previsibility
-                        wvyutun.state = ""
-                        xTools.width=app.width*0.02
-                    }
-                    request.accept()
-                }
-                onUrlChanged: {
-
-                }
-                Shortcut {
-                    sequence: "Ctrl+Tab"
-                    onActivated: {
-                        clipboard.setText("     ")
-                        wvyutun.focus = true
-                        wvyutun.triggerWebAction(WebEngineView.Paste)
-                    }
-                }
-                Shortcut {
-                    sequence: "Ctrl+R"
-                    onActivated: {
-
-                    }
-                }
-
-
-
-            }
-
-            WebEngineView{
-                id: wvinstagram
-                width: parent.width-xTools.width
-                height: parent.height
-                url:appSettings.uUrlInst
-                profile: defaultProfile
-                focus: true
-                visible: appSettings.red===1
-                property string linkContextRequested
-                property QtObject defaultProfile: WebEngineProfile {
-                    storageName: "Default"
-                    onDownloadRequested: {
-                        download.path=unik.getPath(2)+'/main.qml'
-                        download.accept();
-                    }
-                    onDownloadFinished: {
-
-                    }
-                }
-                settings.javascriptCanOpenWindows: true
-                settings.allowRunningInsecureContent: false
-                //settings.hyperlinkAuditingEnabled:  true
-                settings.javascriptCanAccessClipboard: true
-                settings.localStorageEnabled: true
-                settings.javascriptEnabled: true
-                onNewViewRequested: {
-                    request.openIn(wv)
-                    request.accepted = true;
-                }
-                onLoadProgressChanged: {
-                    /*if(loadProgress!==100){
-                        wvyutun.opacity = 0.0
-                    }else{
-                        wvyutun.opacity = 1.0
-                    }*/
-                }
-                onContextMenuRequested: function(request) {
-                    var lurl = ''+request.linkUrl
-                    if(lurl!==''){
-                        wvinstagram.linkContextRequested = lurl
-                        menuLink.visible = true
-                    }
-                    request.accepted = true;
-                    contextMenu.x = request.x;
-                    contextMenu.y = request.y;
-                    contextMenu.visible = true
-                }
-                property int previsibility: 1
-                onFullScreenRequested: {
-                    if(request.toggleOn){
-                        wvinstagram.previsibility=app.visibility
-                        app.visibility = "FullScreen"
-                        wvinstagram.state = "FullScreen"
-                        xTools.width=0
-                    }else{
-                        app.visibility = wvinstagram.previsibility
-                        wvinstagram.state = ""
-                        xTools.width=app.width*0.02
-                    }
-                    request.accept()
-                }
-                onUrlChanged: {
-
-                }
-                Shortcut {
-                    sequence: "Ctrl+Tab"
-                    onActivated: {
-                        clipboard.setText("     ")
-                        wvinstagram.focus = true
-                        wvinstagram.triggerWebAction(WebEngineView.Paste)
-                    }
-                }
-                Shortcut {
-                    sequence: "Ctrl+R"
-                    onActivated: {
-
-                    }
-                }
-
-
-
-            }
-
-            WebEngineView{
-                id: wvtt
-                width: parent.width-xTools.width
-                height: parent.height
-                url:appSettings.uUrlTT
-                profile: defaultProfile
-                focus: true
-                visible: appSettings.red===2
-                property string linkContextRequested
-                property QtObject defaultProfile: WebEngineProfile {
-                    storageName: "Default"
-                    onDownloadRequested: {
-                        download.path=unik.getPath(2)+'/main.qml'
-                        download.accept();
-                    }
-                    onDownloadFinished: {
-
-                    }
-                }
-                settings.javascriptCanOpenWindows: true
-                settings.allowRunningInsecureContent: false
-                //settings.hyperlinkAuditingEnabled:  true
-                settings.javascriptCanAccessClipboard: true
-                settings.localStorageEnabled: true
-                settings.javascriptEnabled: true
-                onNewViewRequested: {
-                    request.openIn(wv)
-                    request.accepted = true;
-                }
-                onLoadProgressChanged: {
-                    /*if(loadProgress!==100){
-                        wvyutun.opacity = 0.0
-                    }else{
-                        wvyutun.opacity = 1.0
-                    }*/
-                }
-                onContextMenuRequested: function(request) {
-                    var lurl = ''+request.linkUrl
-                    if(lurl!==''){
-                        wvtt.linkContextRequested = lurl
-                        menuLink.visible = true
-                    }
-                    request.accepted = true;
-                    contextMenu.x = request.x;
-                    contextMenu.y = request.y;
-                    contextMenu.visible = true
-                }
-                property int previsibility: 1
-                onFullScreenRequested: {
-                    if(request.toggleOn){
-                        wvtt.previsibility=app.visibility
-                        app.visibility = "FullScreen"
-                        wvtt.state = "FullScreen"
-                        xTools.width=0
-                    }else{
-                        app.visibility = wvtt.previsibility
-                        wvtt.state = ""
-                        xTools.width=app.width*0.02
-                    }
-                    request.accept()
-                }
-                onUrlChanged: {
-
-                }
-                Shortcut {
-                    sequence: "Ctrl+Tab"
-                    onActivated: {
-                        clipboard.setText("     ")
-                        wvtt.focus = true
-                        wvtt.triggerWebAction(WebEngineView.Paste)
-                    }
-                }
-                Shortcut {
-                    sequence: "Ctrl+R"
-                    onActivated: {
-
-                    }
-                }
-
-
-
-            }
-
-            WebEngineView{
-                id: wvf
-                width: parent.width-xTools.width
-                height: parent.height
-                url:appSettings.uUrlFB
-                profile: defaultProfile
-                focus: true
-                visible: appSettings.red===3
-                property string linkContextRequested
-                property QtObject defaultProfile: WebEngineProfile {
-                    storageName: "Default"
-                    onDownloadRequested: {
-                        download.path=unik.getPath(2)+'/main.qml'
-                        download.accept();
-                    }
-                    onDownloadFinished: {
-
-                    }
-                }
-                settings.javascriptCanOpenWindows: true
-                settings.allowRunningInsecureContent: false
-                //settings.hyperlinkAuditingEnabled:  true
-                settings.javascriptCanAccessClipboard: true
-                settings.localStorageEnabled: true
-                settings.javascriptEnabled: true
-                onNewViewRequested: {
-                    request.openIn(wv)
-                    request.accepted = true;
-                }
-                onLoadProgressChanged: {
-                    /*if(loadProgress!==100){
-                        wvyutun.opacity = 0.0
-                    }else{
-                        wvyutun.opacity = 1.0
-                    }*/
-                }
-                onContextMenuRequested: function(request) {
-                    var lurl = ''+request.linkUrl
-                    if(lurl!==''){
-                        wvf.linkContextRequested = lurl
-                        menuLink.visible = true
-                    }
-                    request.accepted = true;
-                    contextMenu.x = request.x;
-                    contextMenu.y = request.y;
-                    contextMenu.visible = true
-                }
-                property int previsibility: 1
-                onFullScreenRequested: {
-                    if(request.toggleOn){
-                        wvf.previsibility=app.visibility
-                        app.visibility = "FullScreen"
-                        wvf.state = "FullScreen"
-                        xTools.width=0
-                    }else{
-                        app.visibility = wvf.previsibility
-                        wvf.state = ""
-                        xTools.width=app.width*0.02
-                    }
-                    request.accept()
-                }
-                onUrlChanged: {
-
-                }
-                Shortcut {
-                    sequence: "Ctrl+Tab"
-                    onActivated: {
-                        clipboard.setText("     ")
-                        wvf.focus = true
-                        wvf.triggerWebAction(WebEngineView.Paste)
-                    }
-                }
-                Shortcut {
-                    sequence: "Ctrl+R"
-                    onActivated: {
-
-                    }
-                }
-
-
-
-            }
+            ModWebView{id:modwvyutun;red:0;url:appSettings.uUrlYT;}
+            ModWebView{id:modwvig;red:1;url:appSettings.uUrlInst;}
+            ModWebView{id:modwvtt;red:2;url:appSettings.uUrlTT;}
+            ModWebView{id:modwvfb;red:3;url:appSettings.uUrlFB;}
 
             Menu {
                 id: contextMenu
@@ -553,35 +294,49 @@ ApplicationWindow {
         }
     }
 
+
     Timer{
         id:tu
         running: true
-        repeat: true
-        interval: 1000*60*60
+        repeat: false
+        interval: 1000*5
+        property int v: 0
         onTriggered: {
+            tu.v++
             var d = new Date(Date.now())
+            unik.setDebugLog(false)
             var ur0 = ''+unik.getHttpFile('https://github.com/nextsigner/rickypapi/commits/master?r='+d.getTime())
             var m0=ur0.split("commit-title")
             var m1=(''+m0[1]).split('</p>')
             var m2=(''+m1[0]).split('\">')
-            var m3=(''+m2[1]).split('\"')
-            var ur = ''+m3[1]
-            if(appSettings.uRS!==''&&appSettings.uRS!==ur){
+            var m3=(''+m2[2]).split('<')
+            var ur = ''+m3[0]
+            if(appSettings.uRS===''){
+                appSettings.uRS=ur
+            }
+            //unik.log("Update key control nª"+tu.v+": "+ur+" urs: "+appSettings.uRS)
+            if(appSettings.uRS!==ur){
+                unik.setDebugLog(true)
+                unik.log("Updating unik-tools")
                 appSettings.uRS = ur
-                var fd=unik.getPath(3)+'/unik'
+                var fd=appsDir
                 var downloaded = unik.downloadGit('https://github.com/nextsigner/rickypapi', fd)
+                appSettings.uRS=''
                 tu.stop()
                 if(downloaded){
                     btnUpdate.up=true
                 }else{
                     tu.start()
                 }
-            }else{
-                appSettings.uRS=ur
             }
+            unik.setDebugLog(true)
+            tu.interval=1000*60*5
+            tu.repeat=true
+            tu.start()
         }
     }
+
     Component.onCompleted:  {
-        unik.debugLog = true
+        unik.debugLog = true        
     }
 }

@@ -8,13 +8,10 @@ El navergador webon de los Rickytos!!!!
 
 Este es un módulo para ser ejecutado en unik qml engine.
 
-Para utilizar este código, lo puede descargar y ejecutarlo desde unik 
-mediante el parámetro "-folder". 
+Descargando e instalando la aplicación unik, allí aparece una lista de 
+aplicaciones que se pueden instalar en Windows, GNU/Linux o Macos.
 
-Por Ejemplo: 
-
-unik.exe -folder 
-C:/carpeta/donde/ha/clonado/este/proyecto
+Nota: Este navegador no se encuentra disponible para Andriod ni iOS.
 
 Mas información: nextsigner@gmail.com
 

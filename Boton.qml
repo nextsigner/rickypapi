@@ -6,8 +6,11 @@ Item {
     property int h: 10
     property alias t: txt.text
     property alias c: txt.color
-    property alias b: rect.color
+    property alias b: bg.color
     property bool p: false
+    property bool a: false
+    property alias o: bg.opacity
+    property alias r: rect.radius
     width: w
     height: h
     signal clicking
@@ -20,6 +23,12 @@ Item {
         radius: raiz.h*0.05
         border.width: 1
         border.color: txt.color
+        color: 'transparent'
+        Rectangle{
+            id:bg
+            anchors.fill: parent
+
+        }
         ParallelAnimation{
                 id: an
                 running: false
@@ -31,13 +40,7 @@ Item {
                     duration: 200
                     easing.type: Easing.InOutQuad
                 }
-        }
-        Text {
-            id: txt
-            font.pixelSize: parent.height*0.8
-            anchors.centerIn: parent
-            font.family: "FontAwesome"
-        }
+        }        
         MouseArea{
             id:ma
             property bool pre: false
@@ -61,6 +64,12 @@ Item {
 
         }
 
+    }
+    Text {
+        id: txt
+        font.pixelSize: parent.height*0.8
+        anchors.centerIn: rect
+        font.family: "FontAwesome"
     }
 
 }
