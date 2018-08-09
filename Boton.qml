@@ -11,6 +11,7 @@ Item {
     property bool a: false
     property alias o: bg.opacity
     property alias r: rect.radius
+    property alias d: tip.text
     width: w
     height: h
     signal clicking
@@ -40,11 +41,14 @@ Item {
                     duration: 200
                     easing.type: Easing.InOutQuad
                 }
-        }        
+        }
         MouseArea{
             id:ma
             property bool pre: false
             anchors.fill: parent
+            hoverEnabled: true
+            onEntered:xTip.visible=true
+            onExited: xTip.visible=false
             onClicked: {
                 ma.pre=false
                 an.start()
@@ -71,5 +75,26 @@ Item {
         anchors.centerIn: rect
         font.family: "FontAwesome"
     }
+    Rectangle{
+        id:xTip
+        width: tip.width+app.fs*0.5
+        height: tip.height+app.fs*0.2
+        anchors.left: raiz.right
+        anchors.leftMargin: app.fs*0.2
+        anchors.verticalCenter: raiz.verticalCenter
+        visible:false
+        border.width: 1
+        radius: 6
+
+        Text {
+            id: tip
+            width: contentWidth
+            height: app.fs*0.5
+            anchors.centerIn: parent
+            text:"..."
+
+        }
+    }
+
 
 }
