@@ -58,6 +58,7 @@ ApplicationWindow {
             width: app.width*0.02
             height: app.height
             color: "#fff"
+            z:container.z+99999
             Rectangle{
                 width: 1
                 height: parent.height
@@ -75,6 +76,7 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     h: w
                     t: modwvyutun.url.indexOf(app.urlYT)===0?"\uf167":"\uf0ac"
+                    d: 'El Canal de Yutun de Matias Ponce Pene de Once'
 
                     a: appSettings.red===0
                     c: a?'white':'red'
@@ -101,6 +103,8 @@ ApplicationWindow {
                     h: w
 
                     t: modwvig.url.indexOf(app.urlInst)===0?"\uf16d":"\uf0ac"
+                    d: 'Instagram del Especialista en Misiones Secretas'
+
                     a: appSettings.red===1
                     c: a?'white':'blue'
                     b: a?'blue':'white'
@@ -124,6 +128,7 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     h: w
                     t: modwvtt.url.indexOf(app.urlTT)===0?"\uf099":"\uf0ac"
+                    d: 'Twitter del Principal Acusado por el robo del Unicornio'
 
                     a: appSettings.red===2
                     c: a?'white':'#43b7f1'
@@ -148,6 +153,7 @@ ApplicationWindow {
                     anchors.horizontalCenter: parent.horizontalCenter
                     h: w
                     t: modwvfb.url.indexOf(app.urlFB)===0?"\uf09a":"\uf0ac"
+                    d: 'Facebook Oficial del que no se da cuenta que El Debon le come la novia'
 
                     a: appSettings.red===3
                     c: a?'white':'#117aca'
@@ -177,6 +183,7 @@ ApplicationWindow {
                     opacity: enabled ?1.0:0.5
                     h: w
                     t: "\uf019"
+                    d: 'Ver Descargas'
 
                     a: appSettings.dlvVisible
                     c: a?'white':'green'
@@ -196,6 +203,7 @@ ApplicationWindow {
                     opacity: enabled ?1.0:0.5
                     h: w
                     t: modwvtt.url.indexOf("https://twitter.com/hashtag/RickyPapiNavegadorWeb?src=hash")===0?"\uf086":"\uf0ac"
+                    d: 'Leer todas las pelotudeces que dicen de este #RickyPapiNavegadorWeb'
 
                     a: appSettings.red===4
                     c: a?'white':'green'
@@ -219,6 +227,7 @@ ApplicationWindow {
                     b: up ? 'red':'#ccc'
                     c: up ? 'white':'#333'
                     t: "\uf021"
+                    d: 'Actualizar este NaVergador'
                     o:1.0
                     r:app.fs*0.2
                     property bool up: false
@@ -238,12 +247,31 @@ ApplicationWindow {
                     }
                 }
                 Boton{
+                    id: btnAUT
+                    w:parent.width*0.9
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    h: w
+                    t: "\uf011"
+                    d: 'Más aplicaciones Unik'
+                    c: '#333'
+                    b: '#fff'
+                    o: 1.0
+                    r:app.fs*0.2
+                    onClicking:{
+                        var c=''+appsDir+'/temp_config.json'
+                        var d='{"mode":"-gir", "arg1":"https://github.com/nextsigner/unik-tools.git"}'
+                        unik.setFile(c,d)
+                        unik.restartApp()
+                    }
+                }
+                Boton{
                     id: btnApagar
                     w:parent.width*0.9
                     anchors.horizontalCenter: parent.horizontalCenter
                     opacity: enabled ?1.0:0.5
                     h: w
                     t: "\uf011"
+                    d: 'Apagar la Chota'
 
                     c: '#333'
                     b: '#fff'
