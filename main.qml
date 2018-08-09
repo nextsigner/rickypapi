@@ -245,25 +245,7 @@ ApplicationWindow {
                             unik.restartApp()
                         }
                     }
-                }
-                Boton{
-                    id: btnAUT
-                    w:parent.width*0.9
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    h: w
-                    t: "\uf011"
-                    d: 'Más aplicaciones Unik'
-                    c: '#333'
-                    b: '#fff'
-                    o: 1.0
-                    r:app.fs*0.2
-                    onClicking:{
-                        var c=''+appsDir+'/temp_config.json'
-                        var d='{"mode":"-gir", "arg1":"https://github.com/nextsigner/unik-tools.git"}'
-                        unik.setFile(c,d)
-                        unik.restartApp()
-                    }
-                }
+                }                
                 Boton{
                     id: btnAUT
                     w:parent.width*0.9
